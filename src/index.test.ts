@@ -1,14 +1,14 @@
-import { EventDispatcher } from "../src";
+import { Event } from "../src";
 
 describe("EventDispatcher", () => {
   it("creates a new event", () => {
-    const event = new EventDispatcher();
+    const event = new Event();
     expect(event).toBeDefined();
   });
 
   describe("add", () => {
     it("adds a listener to the event", () => {
-      const event = new EventDispatcher();
+      const event = new Event();
       const listener = jest.fn();
       event.add(listener);
       expect(event.size).toBe(1);
@@ -17,7 +17,7 @@ describe("EventDispatcher", () => {
 
   describe("remove", () => {
     it("removes a listener from the event", () => {
-      const event = new EventDispatcher();
+      const event = new Event();
       const listener = jest.fn();
       event.add(listener);
       expect(event.size).toBe(1);
@@ -28,7 +28,7 @@ describe("EventDispatcher", () => {
 
   describe("emit", () => {
     it("emits an event", () => {
-      const event = new EventDispatcher<string, number>();
+      const event = new Event<string, number>();
       const listener = jest.fn();
       event.add(listener);
       event.emit("test", 123);
@@ -38,7 +38,7 @@ describe("EventDispatcher", () => {
 
   describe("emitAsync", () => {
     it("emits an event asynchronously", async () => {
-      const event = new EventDispatcher<string, number>();
+      const event = new Event<string, number>();
       const listener = jest.fn();
       event.add(listener);
       await event.emitAsync("test", 123);
@@ -48,7 +48,7 @@ describe("EventDispatcher", () => {
 
   describe("clear", () => {
     it("clears all listeners from the event", () => {
-      const event = new EventDispatcher();
+      const event = new Event();
       const listener = jest.fn();
       event.add(listener);
       expect(event.size).toBe(1);

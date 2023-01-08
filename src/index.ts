@@ -1,6 +1,6 @@
 import { Bucket } from "@miniplex/bucket";
 
-export type EventListener<
+export type Listener<
   A = void,
   B = void,
   C = void,
@@ -10,7 +10,7 @@ export type EventListener<
   G = void
 > = (...args: [A, B, C, D, E, F, G]) => void;
 
-export class EventDispatcher<
+export class Event<
   A = void,
   B = void,
   C = void,
@@ -18,7 +18,7 @@ export class EventDispatcher<
   E = void,
   F = void,
   G = void
-> extends Bucket<EventListener<A, B, C, D, E, F, G>> {
+> extends Bucket<Listener<A, B, C, D, E, F, G>> {
   /**
    * Emit the event. This will invoke all stored listeners synchronously,
    * in the order they were added.
