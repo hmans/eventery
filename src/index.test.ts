@@ -44,6 +44,24 @@ describe("EventDispatcher", () => {
     });
   });
 
+  describe("emitAsync", () => {
+    it("emits an event asynchronously", async () => {
+      const event = new EventDispatcher<string>();
+      const listener = jest.fn();
+      event.add(listener);
+      await event.emitAsync("test");
+      expect(listener).toHaveBeenCalledWith(
+        "test",
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined
+      );
+    });
+  });
+
   describe("clear", () => {
     it("clears all listeners from the event", () => {
       const event = new EventDispatcher();
