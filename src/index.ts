@@ -19,15 +19,15 @@ export class EventDispatcher<
   F = void,
   G = void
 > extends Bucket<EventListener<A, B, C, D, E, F, G>> {
-  emit(a: A, b: B, c: C, d: D, e: E, f: F, g: G) {
+  emit(...args: [A, B, C, D, E, F, G]) {
     for (const listener of this.entities) {
-      listener(a, b, c, d, e, f, g);
+      listener(...args);
     }
   }
 
-  emitAsync(a: A, b: B, c: C, d: D, e: E, f: F, g: G) {
+  emitAsync(...args: [A, B, C, D, E, F, G]) {
     return Promise.all(
-      Array.from(this.entities).map((listener) => listener(a, b, c, d, e, f, g))
+      Array.from(this.entities).map((listener) => listener(...args))
     );
   }
 }

@@ -28,37 +28,21 @@ describe("EventDispatcher", () => {
 
   describe("emit", () => {
     it("emits an event", () => {
-      const event = new EventDispatcher<string>();
+      const event = new EventDispatcher<string, number>();
       const listener = jest.fn();
       event.add(listener);
-      event.emit("test");
-      expect(listener).toHaveBeenCalledWith(
-        "test",
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined
-      );
+      event.emit("test", 123);
+      expect(listener).toHaveBeenCalledWith("test", 123);
     });
   });
 
   describe("emitAsync", () => {
     it("emits an event asynchronously", async () => {
-      const event = new EventDispatcher<string>();
+      const event = new EventDispatcher<string, number>();
       const listener = jest.fn();
       event.add(listener);
-      await event.emitAsync("test");
-      expect(listener).toHaveBeenCalledWith(
-        "test",
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined
-      );
+      await event.emitAsync("test", 123);
+      expect(listener).toHaveBeenCalledWith("test", 123);
     });
   });
 
