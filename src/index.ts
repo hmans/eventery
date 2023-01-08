@@ -26,8 +26,6 @@ export class EventDispatcher<
   }
 
   emitAsync(...args: [A, B, C, D, E, F, G]) {
-    return Promise.all(
-      Array.from(this.entities).map((listener) => listener(...args))
-    );
+    return Promise.all(this.entities.map((listener) => listener(...args)));
   }
 }
