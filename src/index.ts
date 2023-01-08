@@ -8,7 +8,7 @@ export type EventListener<
   E = void,
   F = void,
   G = void
-> = (a: A, b: B, c: C, d: D, e: E, f: F, g: G) => void;
+> = (...args: [A, B, C, D, E, F, G]) => void;
 
 export class EventDispatcher<
   A = void,
