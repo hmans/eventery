@@ -32,7 +32,15 @@ describe("EventDispatcher", () => {
       const listener = jest.fn();
       event.add(listener);
       event.emit("test");
-      expect(listener).toHaveBeenCalledWith("test");
+      expect(listener).toHaveBeenCalledWith(
+        "test",
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined
+      );
     });
   });
 
