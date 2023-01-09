@@ -1,6 +1,6 @@
 import { Bucket } from "@miniplex/bucket";
 
-export type Listener<
+export type Callback<
   A = void,
   B = void,
   C = void,
@@ -19,16 +19,29 @@ export class Event<
   F = void,
   G = void
 > {
-  subscribers = new Bucket<Listener<A, B, C, D, E, F, G>>();
+  subscribers = new Bucket<Callback<A, B, C, D, E, F, G>>();
 
-  subscribe(listener: Listener<A, B, C, D, E, F, G>) {
-    this.subscribers.add(listener);
+  /**
+   * Subscribes a callback to the event.
+   *
+   * @param callback The callback to subscribe to the event.
+   */
+  subscribe(callback: Callback<A, B, C, D, E, F, G>) {
+    this.subscribers.add(callback);
   }
 
-  unsubscribe(listener: Listener<A, B, C, D, E, F, G>) {
-    this.subscribers.remove(listener);
+  /**
+   * Unsubscribes a callback from the event.
+   *
+   * @param callback The callback to unsubscribe from the event.
+   */
+  unsubscribe(callback: Callback<A, B, C, D, E, F, G>) {
+    this.subscribers.remove(callback);
   }
 
+  /**
+   * Clears all existing subscriptions.
+   */
   clear() {
     this.subscribers.clear();
   }
@@ -40,8 +53,8 @@ export class Event<
    * @param args Arguments to pass to the listeners.
    */
   emit(...args: [A, B, C, D, E, F, G]) {
-    for (const listener of this.subscribers.entities) {
-      listener(...args);
+    for (const callback of this.subscribers.entities) {
+      callback(...args);
     }
   }
 
