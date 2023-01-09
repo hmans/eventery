@@ -7,14 +7,12 @@ A tiny publish-subscribe library for JavaScript, specifically tailored for use i
 - Supports events with zero, one, or multiple typed arguments; no need to create extra payload objects for events with multiple arguments.
 - Events support synchronous and asynchronous publishing.
 
-### Usage
+## Usage
 
 ```ts
 import { Event } from "eventery";
 
-/*
-Create an event. The generic type is the type of the argument passed to the subscribers.
-*/
+/* Create an event. The generic type is the type of the argument passed to the subscribers. */
 const event = new Event<number>();
 
 /* Create a callback and add it as a subscriber. */
