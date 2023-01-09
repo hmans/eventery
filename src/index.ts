@@ -18,7 +18,21 @@ export class Event<
   E = void,
   F = void,
   G = void
-> extends Bucket<Listener<A, B, C, D, E, F, G>> {
+> {
+  subscribers = new Bucket<Listener<A, B, C, D, E, F, G>>();
+
+  add(listener: Listener<A, B, C, D, E, F, G>) {
+    this.subscribers.add(listener);
+  }
+
+  remove(listener: Listener<A, B, C, D, E, F, G>) {
+    this.subscribers.remove(listener);
+  }
+
+  clear() {
+    this.subscribers.clear();
+  }
+
   /**
    * Emit the event. This will invoke all stored listeners synchronously,
    * in the order they were added.
@@ -26,7 +40,7 @@ export class Event<
    * @param args Arguments to pass to the listeners.
    */
   emit(...args: [A, B, C, D, E, F, G]) {
-    for (const listener of this.entities) {
+    for (const listener of this.subscribers.entities) {
       listener(...args);
     }
   }
@@ -39,6 +53,8 @@ export class Event<
    * @returns A promise that resolves when all listeners have been invoked.
    */
   emitAsync(...args: [A, B, C, D, E, F, G]) {
-    return Promise.all(this.entities.map((listener) => listener(...args)));
+    return Promise.all(
+      this.subscribers.entities.map((listener) => listener(...args))
+    );
   }
 }

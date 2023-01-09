@@ -11,7 +11,7 @@ describe("EventDispatcher", () => {
       const event = new Event();
       const listener = jest.fn();
       event.add(listener);
-      expect(event.size).toBe(1);
+      expect(event.subscribers.size).toBe(1);
     });
   });
 
@@ -20,9 +20,9 @@ describe("EventDispatcher", () => {
       const event = new Event();
       const listener = jest.fn();
       event.add(listener);
-      expect(event.size).toBe(1);
+      expect(event.subscribers.size).toBe(1);
       event.remove(listener);
-      expect(event.size).toBe(0);
+      expect(event.subscribers.size).toBe(0);
     });
   });
 
@@ -51,9 +51,9 @@ describe("EventDispatcher", () => {
       const event = new Event();
       const listener = jest.fn();
       event.add(listener);
-      expect(event.size).toBe(1);
+      expect(event.subscribers.size).toBe(1);
       event.clear();
-      expect(event.size).toBe(0);
+      expect(event.subscribers.size).toBe(0);
     });
   });
 });
