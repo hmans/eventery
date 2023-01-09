@@ -1,5 +1,5 @@
 {
-  "name": "eventeer",
+  "name": "eventery",
   "author": {
     "name": "Hendrik Mans",
     "email": "hendrik@mans.de",
@@ -7,7 +7,7 @@
   },
   "version": "0.0.1",
   "description": "",
-  "main": "dist/eventeer.cjs.js",
+  "main": "dist/eventery.cjs.js",
   "keywords": [],
   "license": "MIT",
   "files": [
