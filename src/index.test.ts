@@ -10,7 +10,7 @@ describe("EventDispatcher", () => {
     it("adds a listener to the event", () => {
       const event = new Event();
       const listener = jest.fn();
-      event.add(listener);
+      event.subscribe(listener);
       expect(event.subscribers.size).toBe(1);
     });
   });
@@ -19,9 +19,9 @@ describe("EventDispatcher", () => {
     it("removes a listener from the event", () => {
       const event = new Event();
       const listener = jest.fn();
-      event.add(listener);
+      event.subscribe(listener);
       expect(event.subscribers.size).toBe(1);
-      event.remove(listener);
+      event.unsubscribe(listener);
       expect(event.subscribers.size).toBe(0);
     });
   });
@@ -30,7 +30,7 @@ describe("EventDispatcher", () => {
     it("emits an event", () => {
       const event = new Event<string, number>();
       const listener = jest.fn();
-      event.add(listener);
+      event.subscribe(listener);
       event.emit("test", 123);
       expect(listener).toHaveBeenCalledWith("test", 123);
     });
@@ -40,7 +40,7 @@ describe("EventDispatcher", () => {
     it("emits an event asynchronously", async () => {
       const event = new Event<string, number>();
       const listener = jest.fn();
-      event.add(listener);
+      event.subscribe(listener);
       await event.emitAsync("test", 123);
       expect(listener).toHaveBeenCalledWith("test", 123);
     });
@@ -50,7 +50,7 @@ describe("EventDispatcher", () => {
     it("clears all listeners from the event", () => {
       const event = new Event();
       const listener = jest.fn();
-      event.add(listener);
+      event.subscribe(listener);
       expect(event.subscribers.size).toBe(1);
       event.clear();
       expect(event.subscribers.size).toBe(0);

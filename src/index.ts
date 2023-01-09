@@ -21,11 +21,11 @@ export class Event<
 > {
   subscribers = new Bucket<Listener<A, B, C, D, E, F, G>>();
 
-  add(listener: Listener<A, B, C, D, E, F, G>) {
+  subscribe(listener: Listener<A, B, C, D, E, F, G>) {
     this.subscribers.add(listener);
   }
 
-  remove(listener: Listener<A, B, C, D, E, F, G>) {
+  unsubscribe(listener: Listener<A, B, C, D, E, F, G>) {
     this.subscribers.remove(listener);
   }
 
