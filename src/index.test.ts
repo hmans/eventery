@@ -28,7 +28,7 @@ describe("EventDispatcher", () => {
 
   describe("emit", () => {
     it("emits an event", () => {
-      const event = new Event<string, number>();
+      const event = new Event<[message: string, count: number]>();
       const listener = jest.fn();
       event.subscribe(listener);
       event.emit("test", 123);
@@ -38,7 +38,7 @@ describe("EventDispatcher", () => {
 
   describe("emitAsync", () => {
     it("emits an event asynchronously", async () => {
-      const event = new Event<string, number>();
+      const event = new Event<[name: string, count: number]>();
       const listener = jest.fn();
       event.subscribe(listener);
       await event.emitAsync("test", 123);
