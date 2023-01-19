@@ -1,9 +1,7 @@
-import { Bucket } from "@miniplex/bucket";
-
 export type Callback<T extends unknown[]> = (...args: T) => void;
 
 export class Event<T extends unknown[]> {
-  subscribers = new Bucket<Callback<T>>();
+  subscribers = new Set<Callback<T>>();
 
   /**
    * Subscribes a callback to the event.
@@ -20,7 +18,7 @@ export class Event<T extends unknown[]> {
    * @param callback The callback to unsubscribe from the event.
    */
   unsubscribe(callback: Callback<T>) {
-    this.subscribers.remove(callback);
+    this.subscribers.delete(callback);
   }
 
   /**
@@ -37,9 +35,7 @@ export class Event<T extends unknown[]> {
    * @param args Arguments to pass to the listeners.
    */
   emit(...args: T) {
-    for (const callback of this.subscribers.entities) {
-      callback(...args);
-    }
+    this.subscribers.forEach((callback) => callback(...args));
   }
 
   /**
@@ -51,7 +47,7 @@ export class Event<T extends unknown[]> {
    */
   emitAsync(...args: T) {
     return Promise.all(
-      this.subscribers.entities.map((listener) => listener(...args))
+      [...this.subscribers].map((listener) => listener(...args))
     );
   }
 }
