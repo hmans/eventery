@@ -29,8 +29,8 @@ export class Event<T extends unknown[]> {
   }
 
   /**
-   * Emit the event. This will invoke all stored listeners synchronously,
-   * in the order they were added.
+   * Emit the event. This will invoke all stored listeners, passing the
+   * given payload to each of them.
    *
    * @param args Arguments to pass to the listeners.
    */
@@ -39,8 +39,10 @@ export class Event<T extends unknown[]> {
   }
 
   /**
-   * Emit the event. This will invoke all stored listeners asynchronously.
-   * The order in which the listeners are invoked is not guaranteed.
+   * Emit the event. This will invoke all stored listeners, passing the
+   * given payload to each of them. This method supports asynchronous
+   * listeners and returns a promise that resolves when all listeners
+   * have completed their work.
    *
    * @param args Arguments to pass to the listeners.
    * @returns A promise that resolves when all listeners have been invoked.
