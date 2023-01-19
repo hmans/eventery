@@ -3,9 +3,9 @@
 A tiny publish-subscribe library for JavaScript, specifically tailored for use in games:
 
 - Instantiate event objects with typed arguments.
-- Uses Bucketeer for optimized array performance.
 - Supports events with zero, one, or multiple typed arguments; no need to create extra payload objects for events with multiple arguments.
 - Events support synchronous and asynchronous publishing.
+- Zero dependencies!
 
 ## Usage
 

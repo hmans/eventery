@@ -1,9 +1,7 @@
-import { Bucket } from "@miniplex/bucket";
-
 export type Callback<T extends unknown[]> = (...args: T) => void;
 
 export class Event<T extends unknown[]> {
-  subscribers = new Bucket<Callback<T>>();
+  subscribers = new Set<Callback<T>>();
 
   /**
    * Subscribes a callback to the event.
@@ -20,7 +18,7 @@ export class Event<T extends unknown[]> {
    * @param callback The callback to unsubscribe from the event.
    */
   unsubscribe(callback: Callback<T>) {
-    this.subscribers.remove(callback);
+    this.subscribers.delete(callback);
   }
 
   /**
@@ -31,27 +29,27 @@ export class Event<T extends unknown[]> {
   }
 
   /**
-   * Emit the event. This will invoke all stored listeners synchronously,
-   * in the order they were added.
+   * Emit the event. This will invoke all stored listeners, passing the
+   * given payload to each of them.
    *
    * @param args Arguments to pass to the listeners.
    */
   emit(...args: T) {
-    for (const callback of this.subscribers.entities) {
-      callback(...args);
-    }
+    this.subscribers.forEach((callback) => callback(...args));
   }
 
   /**
-   * Emit the event. This will invoke all stored listeners asynchronously.
-   * The order in which the listeners are invoked is not guaranteed.
+   * Emit the event. This will invoke all stored listeners, passing the
+   * given payload to each of them. This method supports asynchronous
+   * listeners and returns a promise that resolves when all listeners
+   * have completed their work.
    *
    * @param args Arguments to pass to the listeners.
    * @returns A promise that resolves when all listeners have been invoked.
    */
   emitAsync(...args: T) {
     return Promise.all(
-      this.subscribers.entities.map((listener) => listener(...args))
+      [...this.subscribers].map((listener) => listener(...args))
     );
   }
 }
