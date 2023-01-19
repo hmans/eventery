@@ -32,3 +32,29 @@ event.unsubscribe(callback);
 /* Clear all subscribers. */
 event.clear();
 ```
+
+## Event Payloads
+
+Event payloads are typed using TypeScript's tuple syntax. For example, the following event has a payload with two arguments:
+
+```ts
+const event = new Event<[number, number]>();
+```
+
+These arguments may optionally be named:
+
+```ts
+const event = new Event<[x: number, y: number]>();
+```
+
+Payload arguments can be made optional:
+
+```ts
+const event = new Event<[dt: number, context?: string]>();
+```
+
+They can use the `...` syntax to indicate that the argument is a rest parameter:
+
+```ts
+const event = new Event<[context: string, ...deltas: number[]]>();
+```
