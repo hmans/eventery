@@ -1,32 +1,16 @@
 import { Bucket } from "@miniplex/bucket";
 
-export type Callback<
-  A = void,
-  B = void,
-  C = void,
-  D = void,
-  E = void,
-  F = void,
-  G = void
-> = (...args: [A, B, C, D, E, F, G]) => void;
+export type Callback<T extends unknown[]> = (...args: T) => void;
 
-export class Event<
-  A = void,
-  B = void,
-  C = void,
-  D = void,
-  E = void,
-  F = void,
-  G = void
-> {
-  subscribers = new Bucket<Callback<A, B, C, D, E, F, G>>();
+export class Event<T extends unknown[]> {
+  subscribers = new Bucket<Callback<T>>();
 
   /**
    * Subscribes a callback to the event.
    *
    * @param callback The callback to subscribe to the event.
    */
-  subscribe(callback: Callback<A, B, C, D, E, F, G>) {
+  subscribe(callback: Callback<T>) {
     this.subscribers.add(callback);
   }
 
@@ -35,7 +19,7 @@ export class Event<
    *
    * @param callback The callback to unsubscribe from the event.
    */
-  unsubscribe(callback: Callback<A, B, C, D, E, F, G>) {
+  unsubscribe(callback: Callback<T>) {
     this.subscribers.remove(callback);
   }
 
@@ -52,7 +36,7 @@ export class Event<
    *
    * @param args Arguments to pass to the listeners.
    */
-  emit(...args: [A, B, C, D, E, F, G]) {
+  emit(...args: T) {
     for (const callback of this.subscribers.entities) {
       callback(...args);
     }
@@ -65,7 +49,7 @@ export class Event<
    * @param args Arguments to pass to the listeners.
    * @returns A promise that resolves when all listeners have been invoked.
    */
-  emitAsync(...args: [A, B, C, D, E, F, G]) {
+  emitAsync(...args: T) {
     return Promise.all(
       this.subscribers.entities.map((listener) => listener(...args))
     );

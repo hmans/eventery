@@ -6,6 +6,36 @@ describe("EventDispatcher", () => {
     expect(event).toBeDefined();
   });
 
+  it("creates a new event with an anonymous typed payload", () => {
+    const event = new Event<[number, string?]>();
+    expect(event).toBeDefined();
+    event.emit(0.01);
+  });
+
+  it("creates a new event with a typed payload", () => {
+    const event = new Event<[deltaTime: number]>();
+    expect(event).toBeDefined();
+    event.emit(0.01);
+  });
+
+  it("creates a new event with a typed payload with multiple arguments", () => {
+    const event = new Event<[deltaTime: number, context: string]>();
+    expect(event).toBeDefined();
+    event.emit(0.01, "test");
+  });
+
+  it("creates a new event with a typed payload with multiple arguments, some of them optional", () => {
+    const event = new Event<[deltaTime: number, context?: string]>();
+    expect(event).toBeDefined();
+    event.emit(0.01);
+  });
+
+  it("creates a new event with a typed, variadic payload", () => {
+    const event = new Event<[context: string, ...rest: number[]]>();
+    expect(event).toBeDefined();
+    event.emit("test", 1, 2, 3);
+  });
+
   describe("add", () => {
     it("adds a listener to the event", () => {
       const event = new Event();
@@ -28,7 +58,7 @@ describe("EventDispatcher", () => {
 
   describe("emit", () => {
     it("emits an event", () => {
-      const event = new Event<string, number>();
+      const event = new Event<[message: string, count: number]>();
       const listener = jest.fn();
       event.subscribe(listener);
       event.emit("test", 123);
@@ -38,7 +68,7 @@ describe("EventDispatcher", () => {
 
   describe("emitAsync", () => {
     it("emits an event asynchronously", async () => {
-      const event = new Event<string, number>();
+      const event = new Event<[name: string, count: number]>();
       const listener = jest.fn();
       event.subscribe(listener);
       await event.emitAsync("test", 123);
