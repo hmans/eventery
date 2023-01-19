@@ -30,6 +30,12 @@ describe("EventDispatcher", () => {
     event.emit(0.01);
   });
 
+  it("creates a new event with a typed, variadic payload", () => {
+    const event = new Event<[context: string, ...rest: number[]]>();
+    expect(event).toBeDefined();
+    event.emit("test", 1, 2, 3);
+  });
+
   describe("add", () => {
     it("adds a listener to the event", () => {
       const event = new Event();
