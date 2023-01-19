@@ -6,6 +6,12 @@ describe("EventDispatcher", () => {
     expect(event).toBeDefined();
   });
 
+  it("creates a new event with an anonymous typed payload", () => {
+    const event = new Event<[number, string?]>();
+    expect(event).toBeDefined();
+    event.emit(0.01);
+  });
+
   it("creates a new event with a typed payload", () => {
     const event = new Event<[deltaTime: number]>();
     expect(event).toBeDefined();
