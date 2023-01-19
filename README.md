@@ -12,12 +12,13 @@ A tiny publish-subscribe library for JavaScript, specifically tailored for use i
 ```ts
 import { Event } from "eventery";
 
-/* Create an event. The generic type is the type of the argument passed to the subscribers. */
-const event = new Event<number>();
+/* Create an event. You can pass a type to describe the event's
+payload arguments. These may optionally be named, like here: */
+const event = new Event<[deltaTime: number]>();
 
 /* Create a callback and add it as a subscriber. */
-function callback(value: number) {
-  console.log(value);
+function callback(dt: number) {
+  console.log(dt);
 }
 
 event.subscribe(callback);

@@ -18,6 +18,12 @@ describe("EventDispatcher", () => {
     event.emit(0.01, "test");
   });
 
+  it("creates a new event with a typed payload with multiple arguments, some of them optional", () => {
+    const event = new Event<[deltaTime: number, context?: string]>();
+    expect(event).toBeDefined();
+    event.emit(0.01);
+  });
+
   describe("add", () => {
     it("adds a listener to the event", () => {
       const event = new Event();
