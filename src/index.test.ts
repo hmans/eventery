@@ -57,6 +57,16 @@ describe("EventDispatcher", () => {
 
       expect(listener).toHaveBeenCalledWith(callback);
     });
+
+    it("returns a function that will unsubscribe the listener", () => {
+      const event = new Event();
+
+      const unsubscribe = event.subscribe(jest.fn());
+      expect(event.subscribers.size).toBe(1);
+
+      unsubscribe();
+      expect(event.subscribers.size).toBe(0);
+    });
   });
 
   describe("unsubscribe", () => {
