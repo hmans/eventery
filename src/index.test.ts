@@ -36,7 +36,7 @@ describe("EventDispatcher", () => {
     event.emit("test", 1, 2, 3);
   });
 
-  describe("add", () => {
+  describe("subscribe", () => {
     it("adds a listener to the event", () => {
       const event = new Event();
 
@@ -59,7 +59,7 @@ describe("EventDispatcher", () => {
     });
   });
 
-  describe("remove", () => {
+  describe("unsubscribe", () => {
     it("removes a listener from the event", () => {
       const event = new Event();
 
