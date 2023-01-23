@@ -8,7 +8,7 @@ A tiny publish-subscribe library for JavaScript, specifically tailored for use i
 - Events provide their own events that notify about new or removed subscribers.
 - Zero dependencies!
 
-## Usage
+## Overview
 
 ```ts
 import { Event } from "eventery";
@@ -32,6 +32,14 @@ event.unsubscribe(callback);
 
 /* Clear all subscribers. */
 event.clear();
+```
+
+### With React (and similar)
+
+The `subscribe` function returns a function that will unsubscribe the callback when called. This is handy for use with React's `useEffect` hook:
+
+```ts
+useEffect(() => event.subscribe(listener), []);
 ```
 
 ## Event Payloads
