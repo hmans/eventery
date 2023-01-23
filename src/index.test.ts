@@ -39,20 +39,48 @@ describe("EventDispatcher", () => {
   describe("add", () => {
     it("adds a listener to the event", () => {
       const event = new Event();
+
       const listener = jest.fn();
       event.subscribe(listener);
+
       expect(event.subscribers.size).toBe(1);
+    });
+
+    it("emits the onSubscribe event", () => {
+      const event = new Event();
+
+      const listener = jest.fn();
+      event.onSubscribe.subscribe(listener);
+
+      const callback = jest.fn();
+      event.subscribe(callback);
+
+      expect(listener).toHaveBeenCalledWith(callback);
     });
   });
 
   describe("remove", () => {
     it("removes a listener from the event", () => {
       const event = new Event();
+
       const listener = jest.fn();
       event.subscribe(listener);
       expect(event.subscribers.size).toBe(1);
+
       event.unsubscribe(listener);
       expect(event.subscribers.size).toBe(0);
+    });
+
+    it("emits the onUnsubscribe event", () => {
+      const event = new Event();
+      const listener = jest.fn();
+      event.onUnsubscribe.subscribe(listener);
+
+      const callback = jest.fn();
+      event.subscribe(callback);
+      event.unsubscribe(callback);
+
+      expect(listener).toHaveBeenCalledWith(callback);
     });
   });
 
@@ -84,6 +112,18 @@ describe("EventDispatcher", () => {
       expect(event.subscribers.size).toBe(1);
       event.clear();
       expect(event.subscribers.size).toBe(0);
+    });
+
+    it("emite the onUnsubscribe event for each registered subscriber", () => {
+      const event = new Event();
+      const listener = jest.fn();
+      event.onUnsubscribe.subscribe(listener);
+
+      event.subscribe(jest.fn());
+      event.subscribe(jest.fn());
+      event.clear();
+
+      expect(listener).toHaveBeenCalledTimes(2);
     });
   });
 });

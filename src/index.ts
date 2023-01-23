@@ -1,7 +1,30 @@
 export type Callback<T extends unknown[]> = (...args: T) => void;
 
-export class Event<T extends unknown[]> {
+export type SubscriptionEvent<T extends unknown[]> = Event<
+  [callback: Callback<T>]
+>;
+
+export class Event<T extends unknown[] = []> {
   subscribers = new Set<Callback<T>>();
+
+  protected _onSubscribe?: SubscriptionEvent<T>;
+  protected _onUnsubscribe?: SubscriptionEvent<T>;
+
+  /**
+   * Event that is emitted when a new subscription is added.
+   */
+  get onSubscribe(): SubscriptionEvent<T> {
+    if (!this._onSubscribe) this._onSubscribe = new Event();
+    return this._onSubscribe;
+  }
+
+  /**
+   * Event that is emitted when a subscription is removed.
+   */
+  get onUnsubscribe(): SubscriptionEvent<T> {
+    if (!this._onUnsubscribe) this._onUnsubscribe = new Event();
+    return this._onUnsubscribe;
+  }
 
   /**
    * Subscribes a callback to the event.
@@ -10,6 +33,7 @@ export class Event<T extends unknown[]> {
    */
   subscribe(callback: Callback<T>) {
     this.subscribers.add(callback);
+    this._onSubscribe?.emit(callback);
   }
 
   /**
@@ -19,12 +43,19 @@ export class Event<T extends unknown[]> {
    */
   unsubscribe(callback: Callback<T>) {
     this.subscribers.delete(callback);
+    this._onUnsubscribe?.emit(callback);
   }
 
   /**
    * Clears all existing subscriptions.
    */
   clear() {
+    if (this._onUnsubscribe) {
+      for (const callback of this.subscribers) {
+        this._onUnsubscribe.emit(callback);
+      }
+    }
+
     this.subscribers.clear();
   }
 

@@ -5,6 +5,7 @@ A tiny publish-subscribe library for JavaScript, specifically tailored for use i
 - Instantiate event objects with typed arguments.
 - Supports events with zero, one, or multiple typed arguments; no need to create extra payload objects for events with multiple arguments.
 - Events support synchronous and asynchronous publishing.
+- Events provide their own events that notify about new or removed subscribers.
 - Zero dependencies!
 
 ## Usage
@@ -57,6 +58,36 @@ They can use the `...` syntax to indicate that the argument is a rest parameter:
 
 ```ts
 const event = new Event<[context: string, ...deltas: number[]]>();
+```
+
+## Subscribe/Unsubscribe Notification Events
+
+`Event` provides two events that notify about new or removed subscribers:
+
+```ts
+import { Event } from "eventery";
+
+const event = new Event<[number]>();
+
+/* Subscribe to the event that notifies about new subscribers. */
+event.onSubscribed.subscribe((callback) => {
+  console.log("New subscriber:", callback);
+});
+
+/* Subscribe to the event that notifies about removed subscribers. */
+event.onUnsubscribed.subscribe((callback) => {
+  console.log("Removed subscriber:", callback);
+});
+
+const callback = function (dt: number) {
+  console.log(dt);
+};
+
+/* Subscribe a callback. This will trigger all `onSubscribe` callbacks. */
+event.subscribe(callback);
+
+/* Unsubscribe the callback. This will trigger all `onUnsubscribe` callbacks. */
+event.unsubscribe(callback);
 ```
 
 ## License
