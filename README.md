@@ -5,7 +5,7 @@ A tiny publish-subscribe library for JavaScript, specifically tailored for use i
 - Instantiate event objects with typed arguments.
 - Supports events with zero, one, or multiple typed arguments; no need to create extra payload objects for events with multiple arguments.
 - Events support synchronous and asynchronous publishing.
-- Uses itself to provide events that notify about new or removed subscribers.
+- Events provide their own events that notify about new or removed subscribers.
 - Zero dependencies!
 
 ## Usage
