@@ -30,6 +30,7 @@ export class Event<T extends unknown[] = []> {
    * Subscribes a callback to the event.
    *
    * @param callback The callback to subscribe to the event.
+   * @returns A function that will unsubscribe the callback.
    */
   subscribe(callback: Callback<T>) {
     this.subscribers.add(callback);
